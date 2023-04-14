@@ -1,5 +1,10 @@
+import { Button } from "@material-tailwind/react"
 import React, { useRef, useState, useEffect } from "react"
 import { useRecorder } from "voice-recorder-react"
+
+import Header from "../ui/Header"
+
+import { HiMicrophone } from "react-icons/hi"
 
 export default function VoiceRecorder(
   { time, stop, data, start, pause, resume, paused, recording } = useRecorder()
@@ -22,9 +27,11 @@ export default function VoiceRecorder(
   }, [data.url])
 
   return (
-    <div>
-      <div id='controller'>
-        <button
+    <div className='mt-[50px] flex items-center justify-center'>
+      <div className='bg-gray-100 px-[30px] w-[340px] h-[600px] rounded-md'>
+        <Header />
+        <Button
+          className='w-full mt-10'
           onClick={() => {
             if (recording) {
               stop()
@@ -34,32 +41,36 @@ export default function VoiceRecorder(
               setHasRecording(false)
             }
           }}
-          style={{ margin: "10px" }}
         >
-          {recording ? "Stop" : "Record"}
-        </button>
+          {recording ? "Stop" : "Start"}
+        </Button>
         {recording && (
           <>
-            <button
+            <Button
+              className='mt-5 mb-2'
               onClick={() => {
                 if (recording) {
                   if (paused) resume()
                   else pause()
                 }
               }}
-              style={{ margin: "10px" }}
             >
               {paused ? "Resume" : "Pause"}
-            </button>
-            <p>
-              {time.h}:{time.m}:{time.s}
+            </Button>
+            <p className='text-xl'>
+              Record Time:
+              <span className='ml-1[px] font-bold'>
+                {time.h}:{time.m}:{time.s}
+              </span>
             </p>
           </>
         )}
 
         {!recording && hasRecording && (
           <>
-            <button onClick={togglePlay}>Play/Pause</button>
+            <Button className='mt-5' onClick={togglePlay}>
+              Play/Pause
+            </Button>
           </>
         )}
 
